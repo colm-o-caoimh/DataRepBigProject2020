@@ -1,13 +1,14 @@
 import mysql.connector
+import dbconfig as cfg
 
 class MovieDao: 
     db = "" # stores database connection
     def __init__(self):
         self.db = mysql.connector.connect(
-            host = 'localhost',
-            user = 'root',
-            password = '',
-            database = 'big_project'
+            host = cfg.mysql['host'],
+            user = cfg.mysql['username'],
+            password = cfg.mysql['password'],
+            database = cfg.mysql['database']
         )
         #print("connection made")
 
