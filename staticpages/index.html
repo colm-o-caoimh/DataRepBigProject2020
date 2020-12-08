@@ -16,7 +16,7 @@
                 </tr>
                 <tr>
                     <td>title</td>
-                    <td><input type="text" name="title"></td>
+                    <td><input type="text" name="title" required></td>
                 </tr>
                 <tr>
                     <td>director</td>
@@ -25,18 +25,24 @@
                 <tr>
                     <td>year</td>
                     <td><input type="text" name="year"></td>
+                    <td id='message' class="alert alert-success" role="alert"></td>
                 </tr>
                 <tr>
                     <td></td><td>
-                        <button id="create-button" onclick="doCreate()">Create</button>
-                        <button id="update-button" onclick="doUpdate()">Update</button>
+                        <button id="create-button" class="btn btn-primary" onclick="doCreate()">Create</button>
+                        <button id="update-button" class="btn btn-secondary" onclick="doUpdate()">Update</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td><td>
+                        <button id="back-button" class="btn btn-warning btn-sm" onclick="goBack()">Back</button>
                     </td>
                 </tr>
             </table>   
         </div>
         <div id="display">
             <h2>Movies</h2>
-            <button onclick="showCreate()">Create</button>
+            <button onclick="showCreate()" class="btn btn-primary">Create</button>
             <table id="movieTable" class="table">
                 <tr>
                     <th>ID</th><th>Title</th><th>Director</th><th>Year</th><th></th><th></th>
@@ -66,6 +72,11 @@
                 document.getElementById('create-button').style.display = "none"
                 document.getElementById('create-update').style.display = "block"
 
+            }
+
+            function goBack(){
+                document.getElementById('display').style.display = "block" //make visible
+                document.getElementById('create-update').style.display = "none" //hide
             }
 
             function readMovieFromRow(rowElement){
@@ -103,6 +114,7 @@
             }
  
             function doCreate(){
+
                 movie = getMovieFromForm()
                 console.log(movie.title)
                 $.ajax({
@@ -124,6 +136,8 @@
                 })
             }
 
+
+            
             
             function doUpdate(){
                 movie = getMovieFromForm()
@@ -178,6 +192,7 @@
             
             function getMovieFromForm(){ //form on the create-update screen
                 var form = document.getElementById('createUpdateForm')
+                var text;
 
                 var movie = {}
                 movie.id = form.querySelector('input[name="id"]').value
@@ -186,8 +201,13 @@
                 movie.title = form.querySelector('input[name="title"]').value
                 movie.director = form.querySelector('input[name="director"]').value
                 movie.year = form.querySelector('input[name="year"]').value
+                if (isNaN(movie.year)){
+                    text = "input not valid"
+                    document.getElementById('message').innerHTML = text;
+                }else {
                 console.log(movie)
                 return movie
+                }
             }
 
             function showDisplay(){
@@ -229,9 +249,9 @@
                 cell4 = rowElem.insertCell(3)
                 cell4.innerHTML = movie.year
                 cell5 = rowElem.insertCell(4)
-                cell5.innerHTML = '<button onclick="showUpdate(this)">Update</button>'
+                cell5.innerHTML = '<button onclick="showUpdate(this)" class="btn btn-secondary">Update</button>'
                 cell6 = rowElem.insertCell(5)
-                cell6.innerHTML = '<button onclick="doDelete(this)">Delete</button>'
+                cell6.innerHTML = '<button onclick="doDelete(this)" class="btn btn-secondary">Delete</button>'
             }
             populateTable() //this is called as soon as program is run
         </script>

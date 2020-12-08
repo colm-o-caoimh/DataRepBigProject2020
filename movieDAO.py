@@ -5,10 +5,10 @@ class MovieDao:
     db = "" # stores database connection
     def __init__(self):
         self.db = mysql.connector.connect(
-            host = cfg.mysql['host'],
-            user = cfg.mysql['username'],
-            password = cfg.mysql['password'],
-            database = cfg.mysql['database']
+            host=      cfg.mysql['host'],
+            user=      cfg.mysql['user'],
+            password=  cfg.mysql['password'],
+            database=  cfg.mysql['database']
         )
         #print("connection made")
 
@@ -28,7 +28,7 @@ class MovieDao:
     
     def get_all(self):
         cursor = self.db.cursor()
-        sql = "select * from movies"
+        sql = "select * from movies order by id"
         cursor.execute(sql)
         results = cursor.fetchall() # comes back as tuple. We want them as dict objects
                                     # JSON on our html page in the end
