@@ -18,18 +18,22 @@
                 </tr>
                 <tr>
                     <td>title</td>
-                    <td><input type="text" name="title" required></td>
+                    <td><input type="text" name="title"></td>
+                    <div id='titleAlert' class="alert alert-primary" role="alert" style="display: none">
+                        Field entry missing                 
+                      </div>
                 </tr>
                 <tr>
                     <td>director</td>
-                    <td><input type="text" name="director"></td>
+                    <td><input type="text" oninvalid="alert('You must fill out the form!');" name="director"></td>
                 </tr>
                 <tr>
                     <td>year</td>
-                    <td><input type="text" name="year"></td>
-                    <div id='message' style='visibility:hidden; height:150px; width: 250px; background-color: gray;' class="alert alert-primary" role="alert">
-                            Please enter number
+                    <td><input type="text" oninvalid="alert('You must fill out the form!');" name="year"></td>
+                    <div id='alert' class="alert alert-primary" role="alert" style="display: none">
+                        Please enter valid year                 
                       </div>
+                      
             
             
                 </tr>
@@ -64,6 +68,8 @@
                 document.getElementById('update-button').style.display = "none"
                 document.getElementById('create-button').style.display = "block"
                 document.getElementById('create-update').style.display = "block"
+                document.getElementById('alert').style.display = "none"
+                document.getElementById('titleAlert').style.display = "none"
 
             }
 
@@ -77,6 +83,9 @@
                 document.getElementById('update-button').style.display = "block"
                 document.getElementById('create-button').style.display = "none"
                 document.getElementById('create-update').style.display = "block"
+                document.getElementById('alert').style.display = "none"
+                document.getElementById('titleAlert').style.display = "none"
+
 
             }
 
@@ -132,7 +141,7 @@
                     dataType: 'JSON', // what we get back
                     contentType: "application/json; charset=utf-8",
                     success: function(result){
-                        console.log(result) // if auto increment by id, returns id
+                        // console.log(result) // if auto increment by id, returns id
                         movie.id = result
                         addMovieToTable(movie) // update to server first, then add to table
                         showDisplay()
@@ -216,18 +225,22 @@
                 movie.year = form.querySelector('input[name="year"]').value
                 if (isNaN(movie.year)){
                     text = "input not valid - please enter year"
-                    document.getElementById('message').innerHTML = text;
-                    setTimeout("showDiv()", 3000)
-                    showDiv()
-                }else {
+                    // document.getElementById('alert').innerHTML = text;
+                    document.getElementById('alert').style.display = 'block'
+                    // setTimeout("showDiv()", 3000)
+                    // showDiv()
+                } else if (movie.title == ""){
+                    document.getElementById('titleAlert').style.display = 'block'
+                    console.log("empty string")
+                }
+                
+                
+                else {
                 console.log(movie)
                 return movie
                 }
             }
  
-            function showDiv(){
-                document.getElementById('message').style.visibility="hidden";
-            }
                 
 
             function showDisplay(){
