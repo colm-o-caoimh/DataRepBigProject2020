@@ -186,7 +186,7 @@
                     dataType: 'JSON',
                     success:function(result){
                         tableElement.deleteRow(index)
-                        console.log("deleted")
+                        console.log(result)
                     },
                     error:function(xhr,status,error){
                         console.log(error)
@@ -216,7 +216,7 @@
                 movie.year = form.querySelector('input[name="year"]').value
                 if (isNaN(movie.year)){
                     text = "input not valid - please enter year"
-                    // document.getElementById('message').innerHTML = text;
+                    document.getElementById('message').innerHTML = text;
                     setTimeout("showDiv()", 3000)
                     showDiv()
                 }else {
