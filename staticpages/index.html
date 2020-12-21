@@ -186,6 +186,7 @@
                     dataType: 'JSON',
                     success:function(result){
                         tableElement.deleteRow(index)
+                        console.log("deleted")
                     },
                     error:function(xhr,status,error){
                         console.log(error)
