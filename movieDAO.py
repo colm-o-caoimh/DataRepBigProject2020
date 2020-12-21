@@ -1,6 +1,6 @@
 import mysql.connector
 import dbconfig as cfg
-
+ 
 class MovieDao: 
     db = "" # stores database connection
     def __init__(self):
@@ -11,7 +11,7 @@ class MovieDao:
             database=  cfg.mysql['database']
         )
         #print("connection made")
-
+ 
     
     def create(self, movie): # creates new movie but also returns latest id
         cursor = self.db.cursor()

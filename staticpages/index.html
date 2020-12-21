@@ -5,6 +5,8 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" 
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
+
+
     </head>
     <body>
         <div id="create-update" style="display:none"> 
@@ -25,7 +27,11 @@
                 <tr>
                     <td>year</td>
                     <td><input type="text" name="year"></td>
-                    <td id='message' class="alert alert-success" role="alert"></td>
+                    <div id='message' style='visibility:hidden; height:150px; width: 250px; background-color: gray;' class="alert alert-primary" role="alert">
+                            Please enter number
+                      </div>
+            
+            
                 </tr>
                 <tr>
                     <td></td><td>
@@ -88,7 +94,7 @@
 
                 return movie
             }
-
+ 
             function populateForm(movie){
                 var form = document.getElementById('createUpdateForm')
 
@@ -114,11 +120,13 @@
             }
  
             function doCreate(){
+                host = window.location.origin
 
                 movie = getMovieFromForm()
                 console.log(movie.title)
                 $.ajax({
-                    url:'http://127.0.0.1:5000/movies',
+                    // url:'http://127.0.0.1:5000/movies',
+                    url:host + '/movies',
                     data:JSON.stringify(movie),
                     method:'POST',
                     dataType: 'JSON', // what we get back
@@ -145,8 +153,10 @@
                 
             }
             function updateServer(movie){
+                host = window.location.origin
                 $.ajax({
-                    url:'http://127.0.0.1:5000/movies/'+ movie.id,
+                    // url:'http://127.0.0.1:5000/movies/'+ movie.id,
+                    url: host + '/movies/'+ movie.id,
                     data:JSON.stringify(movie),
                     method:'PUT',
                     dataType: 'JSON', // what we get back
@@ -163,13 +173,15 @@
                 })
             }    
             function doDelete(thisElem){
+                host = window.location.origin
                 var tableElement = document.getElementById('movieTable')
                 var rowElement = thisElem.parentNode.parentNode
                 var index = rowElement.rowIndex
                 id = rowElement.getAttribute("id");
                 console.log(id)
                 $.ajax({
-                    url: 'http://127.0.0.1:5000/movies/'+ id,
+                    // url: 'http://127.0.0.1:5000/movies/'+ id,
+                    url: host + '/movies/'+ id,
                     method: 'DELETE',
                     dataType: 'JSON',
                     success:function(result){
@@ -202,13 +214,20 @@
                 movie.director = form.querySelector('input[name="director"]').value
                 movie.year = form.querySelector('input[name="year"]').value
                 if (isNaN(movie.year)){
-                    text = "input not valid"
-                    document.getElementById('message').innerHTML = text;
+                    text = "input not valid - please enter year"
+                    // document.getElementById('message').innerHTML = text;
+                    setTimeout("showDiv()", 3000)
+                    showDiv()
                 }else {
                 console.log(movie)
                 return movie
                 }
             }
+ 
+            function showDiv(){
+                document.getElementById('message').style.visibility="hidden";
+            }
+                
 
             function showDisplay(){
                 document.getElementById('display').style.display = "block" //make visible
@@ -219,9 +238,11 @@
         
         
             function populateTable(){
+                host = window.location.origin
                 //ajax call to database (via server) to getAll books. That's why we need an ajx call
                 $.ajax({ // jQuery ajax() method
-                    url:'http://127.0.0.1:5000/movies', //send request here
+                    // url:'http://127.0.0.1:5000/movies', //send request here
+                    url: host + '/movies',
                     method: 'GET',
                     dataType: 'JSON', //data type expected of server response
                     success: function(results){ // special ajax object success function to run when request succeeds

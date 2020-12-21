@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, url_for, abort
 from movieDAO import movieDao
 
 app = Flask(__name__, static_url_path='', static_folder='staticpages')
-
+ 
 
 @app.route('/')
 def index():
