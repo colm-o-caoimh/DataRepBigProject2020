@@ -18,4 +18,6 @@ txt file containing necessary packages to allow the application to function. The
 ##### dbconfig_template.py
 Python file which enables flexible configuration regardless of what machine the app is being run on.
 ##### initdb.sql
-sql file containing code for table creation (my app has been deployed to pythonanywhere so this file may not be necessary)
+sql file containing code for databse and table creation (my app has been deployed to pythonanywhere so this file may not be necessary)
+##### pythonanywhere_link.docx
+This file contains the link the hosted web app (hosted on pythonanywhere.com). There is also a little explanation as to the functionality of my app
