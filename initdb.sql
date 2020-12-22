@@ -1,3 +1,5 @@
+create database big_project;
+
 use big_project;
  
 create table movies (
