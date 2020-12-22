@@ -100,6 +100,7 @@
             }
 
             function goBack(){
+
                 // allows user to return to movie table without having to fill form
                 document.getElementById('display').style.display = "block"
                 document.getElementById('create-update').style.display = "none"
@@ -233,12 +234,13 @@
                 movie.title = form.querySelector('input[name="title"]').value
                 movie.director = form.querySelector('input[name="director"]').value
                 movie.year = form.querySelector('input[name="year"]').value
+                
+                // if year entry is not a number this alert is raised
                 if (isNaN(movie.year)){
-                    text = "input not valid - please enter year"
-                    // document.getElementById('alert').innerHTML = text;
+
                     document.getElementById('alert').style.display = 'block'
-                    // setTimeout("showDiv()", 3000)
-                    // showDiv()
+                    
+                // alert raised if field entry missing for title or director
                 } else if (movie.title == "" || movie.director == ""){
                     document.getElementById('titleAlert').style.display = 'block'
                     console.log("empty string")
@@ -254,8 +256,8 @@
                 
 
             function showDisplay(){
-                document.getElementById('display').style.display = "block" //make visible
-                document.getElementById('create-update').style.display = "none" //hide
+                document.getElementById('display').style.display = "block" 
+                document.getElementById('create-update').style.display = "none" 
 
             }
             
@@ -263,17 +265,16 @@
         
             function populateTable(){
                 host = window.location.origin
-                //ajax call to database (via server) to getAll books. That's why we need an ajx call
-                $.ajax({ // jQuery ajax() method
-                    // url:'http://127.0.0.1:5000/movies', //send request here
+
+                $.ajax({ 
                     url: host + '/movies',
                     method: 'GET',
-                    dataType: 'JSON', //data type expected of server response
-                    success: function(results){ // special ajax object success function to run when request succeeds
+                    dataType: 'JSON', 
+                    success: function(results){ 
                         for (movie of results)
                             addMovieToTable(movie)
                         },
-                    error: function (xhr,atatus,error){ // special ajax error function when request fails
+                    error: function (xhr,atatus,error){ 
                         console.log ("error "+error +" code:"+code)
                     }
                     
@@ -281,10 +282,10 @@
 
             }
             function addMovieToTable(movie){
-                //console.log("working so far")
+
                 tableElem = document.getElementById("movieTable")
-                rowElem = tableElem.insertRow(-1) // -1 inserts row at the end
-                rowElem.setAttribute("id", movie.id) // we can find this row easily when we want to delete it
+                rowElem = tableElem.insertRow(-1) 
+                rowElem.setAttribute("id", movie.id) 
                 cell1 = rowElem.insertCell(0)
                 cell1.innerHTML = movie.id
                 cell2 = rowElem.insertCell(1)
@@ -298,7 +299,7 @@
                 cell6 = rowElem.insertCell(5)
                 cell6.innerHTML = '<button onclick="doDelete(this)" class="btn btn-secondary">Delete</button>'
             }
-            populateTable() //this is called as soon as program is run
+            populateTable() 
         </script>
     </body>
 </html>
