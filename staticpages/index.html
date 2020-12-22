@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" 
         integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-
+ 
 
     </head>
     <body>
@@ -13,23 +13,27 @@
             <h2>create-update</h2>
             <table id="createUpdateForm">
                 <tr>
-                    <!-- <td>id</td> -->
+
                     <td><input type="hidden" name="id" id="idInput"></td>
                 </tr>
                 <tr>
                     <td>title</td>
                     <td><input type="text" name="title"></td>
+
+                    <!-- alert for when user fails to fill in form -->
                     <div id='titleAlert' class="alert alert-primary" role="alert" style="display: none">
                         Field entry missing                 
                       </div>
                 </tr>
                 <tr>
                     <td>director</td>
-                    <td><input type="text" oninvalid="alert('You must fill out the form!');" name="director"></td>
+                    <td><input type="text" name="director"></td>
                 </tr>
                 <tr>
                     <td>year</td>
-                    <td><input type="text" oninvalid="alert('You must fill out the form!');" name="year"></td>
+                    <td><input type="text" name="year"></td>
+
+                    <!-- alert for when user fails to enter numbers for 'year' field -->
                     <div id='alert' class="alert alert-primary" role="alert" style="display: none">
                         Please enter valid year                 
                       </div>
@@ -39,12 +43,16 @@
                 </tr>
                 <tr>
                     <td></td><td>
+
+                        <!-- bootstrap buttons added for style -->
                         <button id="create-button" class="btn btn-primary" onclick="doCreate()">Create</button>
                         <button id="update-button" class="btn btn-secondary" onclick="doUpdate()">Update</button>
                     </td>
                 </tr>
                 <tr>
                     <td></td><td>
+
+                        <!-- button allows user to return to movie table -->
                         <button id="back-button" class="btn btn-warning btn-sm" onclick="goBack()">Back</button>
                     </td>
                 </tr>
@@ -52,10 +60,12 @@
         </div>
         <div id="display">
             <h2>Movies</h2>
+
+            <!-- boootstrap button added for style -->
             <button onclick="showCreate()" class="btn btn-primary">Create</button>
             <table id="movieTable" class="table">
                 <tr>
-                    <th>ID</th><th>Title</th><th>Director</th><th>Year</th><th></th><th></th>
+                    <th>ID</th><th>Title</th><th>Director</th><th>Year</th><th>Update</th><th>Delete</th>
                 </tr>
                      
             </table>
@@ -68,14 +78,14 @@
                 document.getElementById('update-button').style.display = "none"
                 document.getElementById('create-button').style.display = "block"
                 document.getElementById('create-update').style.display = "block"
-                document.getElementById('alert').style.display = "none"
-                document.getElementById('titleAlert').style.display = "none"
+                document.getElementById('alert').style.display = "none" // hides invalid year alert message 
+                document.getElementById('titleAlert').style.display = "none" // hides invalid field entry alert message
 
             }
 
             function showUpdate(thisElem){
                 var rowElement = thisElem.parentNode.parentNode
-                //console.log(rowElement)
+        
                 movie = readMovieFromRow(rowElement)
                 populateForm(movie)
 
@@ -90,8 +100,9 @@
             }
 
             function goBack(){
-                document.getElementById('display').style.display = "block" //make visible
-                document.getElementById('create-update').style.display = "none" //hide
+                // allows user to return to movie table without having to fill form
+                document.getElementById('display').style.display = "block"
+                document.getElementById('create-update').style.display = "none"
             }
 
             function readMovieFromRow(rowElement){
@@ -134,16 +145,15 @@
                 movie = getMovieFromForm()
                 console.log(movie.title)
                 $.ajax({
-                    // url:'http://127.0.0.1:5000/movies',
                     url:host + '/movies',
                     data:JSON.stringify(movie),
                     method:'POST',
-                    dataType: 'JSON', // what we get back
+                    dataType: 'JSON',
                     contentType: "application/json; charset=utf-8",
                     success: function(result){
-                        // console.log(result) // if auto increment by id, returns id
+
                         movie.id = result
-                        addMovieToTable(movie) // update to server first, then add to table
+                        addMovieToTable(movie) 
                         showDisplay()
                         clearForm()
                     },
@@ -164,14 +174,14 @@
             function updateServer(movie){
                 host = window.location.origin
                 $.ajax({
-                    // url:'http://127.0.0.1:5000/movies/'+ movie.id,
+
                     url: host + '/movies/'+ movie.id,
                     data:JSON.stringify(movie),
                     method:'PUT',
-                    dataType: 'JSON', // what we get back
+                    dataType: 'JSON',
                     contentType: "application/json; charset=utf-8",
                     success: function(result){
-                        console.log(result) // if auto increment by id, returns id
+                        console.log(result) 
                         updateTableRow(movie)
                         showDisplay()
                         clearForm()
@@ -189,7 +199,7 @@
                 id = rowElement.getAttribute("id");
                 console.log(id)
                 $.ajax({
-                    // url: 'http://127.0.0.1:5000/movies/'+ id,
+
                     url: host + '/movies/'+ id,
                     method: 'DELETE',
                     dataType: 'JSON',
@@ -212,7 +222,7 @@
 
             }
             
-            function getMovieFromForm(){ //form on the create-update screen
+            function getMovieFromForm(){ 
                 var form = document.getElementById('createUpdateForm')
                 var text;
 
